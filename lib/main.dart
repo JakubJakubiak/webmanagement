@@ -6,7 +6,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,31 +14,11 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: IconSelectionBar(
             items: [
-              StyledIcon(
-                icon: Icons.person, 
-                color: Colors.blue, 
-                backgroundColor: Colors.blue.shade100
-              ),
-              StyledIcon(
-                icon: Icons.message, 
-                color: Colors.green, 
-                backgroundColor: Colors.green.shade100
-              ),
-              StyledIcon(
-                icon: Icons.call, 
-                color: Colors.red, 
-                backgroundColor: Colors.red.shade100
-              ),
-              StyledIcon(
-                icon: Icons.camera, 
-                color: Colors.purple, 
-                backgroundColor: Colors.purple.shade100
-              ),
-              StyledIcon(
-                icon: Icons.photo, 
-                color: Colors.orange, 
-                backgroundColor: Colors.orange.shade100
-              ),
+              StyledIcon(icon: Icons.person, color: Colors.blue, backgroundColor: Colors.blue.shade100),
+              StyledIcon(icon: Icons.message, color: Colors.green, backgroundColor: Colors.green.shade100),
+              StyledIcon(icon: Icons.call, color: Colors.red, backgroundColor: Colors.red.shade100),
+              StyledIcon(icon: Icons.camera, color: Colors.purple, backgroundColor: Colors.purple.shade100),
+              StyledIcon(icon: Icons.photo, color: Colors.orange, backgroundColor: Colors.orange.shade100),
             ],
           ),
         ),
@@ -52,13 +32,8 @@ class StyledIcon {
   final Color color;
   final Color? backgroundColor;
   final double size;
-  
-  const StyledIcon({
-    required this.icon, 
-    this.color = Colors.black, 
-    this.backgroundColor,
-    this.size = 48
-  });
+
+  const StyledIcon({required this.icon, this.color = Colors.black, this.backgroundColor, this.size = 48});
 }
 
 class IconSelectionBar extends StatefulWidget {
@@ -66,22 +41,22 @@ class IconSelectionBar extends StatefulWidget {
     super.key,
     required this.items,
   });
-  
+
   final List<StyledIcon> items;
-  
+
   @override
   State<IconSelectionBar> createState() => _IconSelectionBarState();
 }
 
 class _IconSelectionBarState extends State<IconSelectionBar> {
   late List<StyledIcon> _items;
-  
+
   @override
   void initState() {
     super.initState();
     _items = List.from(widget.items);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,7 +71,7 @@ class _IconSelectionBarState extends State<IconSelectionBar> {
       ),
     );
   }
-  
+
   List<Widget> _buildDraggableIcons() {
     return _items.map((styledIcon) {
       return Draggable<StyledIcon>(
@@ -112,25 +87,22 @@ class _IconSelectionBarState extends State<IconSelectionBar> {
       );
     }).toList();
   }
-  
-  Widget _buildIconWidget(StyledIcon styledIcon, {
-    bool isDragging = false, 
-    bool isPlaceholder = false
-  }) {
+
+  Widget _buildIconWidget(StyledIcon styledIcon, {bool isDragging = false, bool isPlaceholder = false}) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-        color: isDragging 
-          ? styledIcon.color.withOpacity(0.3)
-          : isPlaceholder 
-            ? Colors.grey.shade300 
-            : styledIcon.backgroundColor ?? Colors.transparent,
+        color: isDragging
+            ? styledIcon.color.withOpacity(0.3)
+            : isPlaceholder
+                ? Colors.grey.shade300
+                : styledIcon.backgroundColor ?? Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(
         icon: Icon(
-          styledIcon.icon, 
+          styledIcon.icon,
           color: isDragging ? styledIcon.color.withOpacity(0.5) : styledIcon.color,
           size: styledIcon.size,
         ),
@@ -138,7 +110,7 @@ class _IconSelectionBarState extends State<IconSelectionBar> {
       ),
     );
   }
-  
+
   void _reorderIcons(StyledIcon draggedIcon, StyledIcon targetIcon) {
     setState(() {
       final dragIndex = _items.indexOf(draggedIcon);
